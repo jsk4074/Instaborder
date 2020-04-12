@@ -13,7 +13,7 @@ def defaultdir():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     print('changeing file path')
     print("before: %s"%os.getcwd())
-    os.chdir("test 1")
+    os.chdir("photo here")
     print("after: %s"%os.getcwd())
 
 defaultdir()
@@ -60,6 +60,7 @@ for i in range(len(a)):
         greater = inimg[1]
     else:
         greater = inimg[0]
+
     print(greater)
     img = Image.open(a[i])
     img_with_border = ImageOps.expand(img,border=int(9*greater/40),fill='white')
@@ -68,19 +69,27 @@ for i in range(len(a)):
     print("dir changed to result")
     img_with_border.save('%d border.jpg'%i)
     print('%d border.jpg'%i+' rough save done')
+
     line()
     print('%d border.jpg'%i+' cropping')
     imc = Image.open('%d border.jpg'%i)
     print(imc.size)
     inimg = imc.size
+
     if inimg[0]<inimg[1]:
+        print('This is vertical img')
         small = inimg[0]
         big = inimg[1]
+        croprait = int((big-small)/2)
+        cropImage = imc.crop((0, croprait, small, croprait+small))
+
     else:
+        print('This is horizontal img')
         small = inimg[1]
         big = inimg[0]
-    croprait = int((big-small)/2)
-    cropImage = imc.crop((croprait, 0, croprait+small, small))
+        croprait = int((big-small)/2)
+        cropImage = imc.crop((croprait, 0, croprait+small, small))
+
     print("big is %d"%big)
     print("small is %d"%small)
     print("croprait is %d"%croprait)
